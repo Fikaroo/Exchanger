@@ -152,6 +152,8 @@
 }
 
 .main .main-content .boxes .box .btn-values .btn-value:hover {
+  -webkit-transition: ease .7s;
+  transition: ease .7s;
   background: #833AE0;
   cursor: pointer;
   color: #FFFFFF;

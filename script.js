@@ -13,7 +13,8 @@ const errorNumIn = document.querySelector('.input .errorNum');
 const errorTextOut = document.querySelector('.output .errorText');
 const errorNumOut = document.querySelector('.output .errorNum');
 
-let curApiRateIn, curApiRateOut,inVal = 1;
+let curApiRateIn, curApiRateOut, inVal = 1, outVal = 1;
+
 activeBtn.forEach((item, index) => {
     if (index == 0)
         inCur = item.value;
@@ -23,50 +24,68 @@ activeBtn.forEach((item, index) => {
 
 
 
-const callApi = async () => {
-    window.addEventListener('offline', () =>{
+const callApi = async (e) => {
+    window.addEventListener('offline', () => {
         throw alert('No Internet Connection');
     })
     if (inCur == outCur) {
         curApiRateIn = 1;
         curApiRateOut = 1;
     }
-
     const resIn = await fetch(`${url}?base=${inCur}&symbols=${outCur}`);
     const resOut = await fetch(`${url}?base=${outCur}&symbols=${inCur}`);
     const dataIn = await resIn.json();
     const dataOut = await resOut.json();
     curApiRateIn = await Object.values(dataIn.rates)[0];
     curApiRateOut = await Object.values(dataOut.rates)[0];
-    appendRate();
+    appendRate(e);
 }
 
 callApi().catch(error => alert('something wrong'));
 
-function appendRate() {
+function appendRate(e) {
     curRateIn.textContent = `1 ${inCur} = ${curApiRateIn} ${outCur}`;
     curRateOut.textContent = `1 ${outCur} = ${curApiRateOut} ${inCur}`;
-    inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6);
+    if (e == 'output-select') {
+        if (inputOut.value != '') {
+            inputIn.value = +(inputOut.value * curApiRateOut).toFixed(6);
+        } else {
+            inputOut.value = ''
+        }
+    }
+    if (e == 'input-select') {
+        if (inputIn.value != '') {
+            inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6);
+        } else {
+            inputIn.value = ''
+        }
+    }
+
     inputIn.addEventListener('keyup', (e) => {
-        inVal = inputIn.value;
+        inVal = e.target.value;
         if (e.target.value == '') {
             errorTextIn.style.display = 'none';
             errorNumIn.style.display = 'none';
             inputOut.value = '';
+        } else if (e.target.value.includes(',')) {
+            e.target.value = e.target.value.replace(',', '.');
         } else if (isNaN(e.target.value)) {
             inputOut.value = '';
             errorTextIn.style.display = 'block';
+            errorNumIn.style.display = 'none';
         } else if (e.target.value.includes('-')) {
             inputOut.value = '';
             errorNumIn.style.display = 'block';
+            errorTextIn.style.display = 'none';
         } else {
             inputOut.value = +(e.target.value * curApiRateIn).toFixed(6);
             errorTextIn.style.display = 'none';
             errorNumIn.style.display = 'none';
         }
     });
+
     inputOut.addEventListener('keyup', (e) => {
-        console.log(inputIn.value)
+        outVal = e.target.value;
         if (e.target.value == '') {
             errorTextOut.style.display = 'none';
             errorNumOut.style.display = 'none';
@@ -82,7 +101,7 @@ function appendRate() {
             errorTextOut.style.display = 'none';
             errorNumOut.style.display = 'none';
         }
-    })
+    });
 }
 
 eventListener();
@@ -97,10 +116,10 @@ function changeCurIn(e) {
     activeBtnIn.forEach(item => item.classList.remove('btn-active'));
     e.target.classList.add('btn-active');
     inCur = e.target.value;
-    inputIn.value = 1;
+    inputIn.value = outVal;
     errorTextIn.style.display = 'none';
     errorNumIn.style.display = 'none';
-    callApi();
+    callApi(e.target.parentElement.classList[1]);
 }
 
 function changeCurOut(e) {
@@ -111,5 +130,5 @@ function changeCurOut(e) {
     inputIn.value = inVal;
     errorTextOut.style.display = 'none';
     errorNumOut.style.display = 'none';
-    callApi();
+    callApi(e.target.parentElement.classList[1]);
 }
