@@ -24,6 +24,9 @@ activeBtn.forEach((item, index) => {
 
 
 const callApi = async () => {
+    window.addEventListener('offline', () =>{
+        throw alert('No Internet Connection');
+    })
     if (inCur == outCur) {
         curApiRateIn = 1;
         curApiRateOut = 1;
@@ -38,7 +41,7 @@ const callApi = async () => {
     appendRate();
 }
 
-callApi();
+callApi().catch(error => alert('something wrong'));
 
 function appendRate() {
     curRateIn.textContent = `1 ${inCur} = ${curApiRateIn} ${outCur}`;
