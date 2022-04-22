@@ -20,17 +20,17 @@
                 </div>
                 <div class="nav-content">
                     <ul>
-                        <li>BANK</li>
-                        <li>BUSINESS</li>
-                        <li>INVESTMENTS</li>
-                        <li>INSURANCE</li>
-                        <li>MOBILE</li>
-                        <li>TRIPS</li>
-                        <li>ENTERTAINMENT</li>
+                        <li><a class="in-page" href="#">BANK</a></li>
+                        <li><a href="#">BUSINESS</a></li>
+                        <li><a href="#">INVESTMENTS</a></li>
+                        <li><a href="#">INSURANCE</a></li>
+                        <li><a href="#">MOBILE</a></li>
+                        <li><a href="#">TRIPS</a></li>
+                        <li><a href="#">ENTERTAINMENT</a></li>
                     </ul>
                 </div>
                 <div class="nav-right">
-                    <button class="sing-in">Sing In</button>
+                    <button class="btn-login">Sing In</button>
                 </div>
             </div>
         </div>
@@ -41,27 +41,41 @@
             <div class="main-content">
                 <div class="boxes">
                     <div class="box input">
-                        <span class="input-title"></span>
-                        <div class="input-select">
-                            <button>RUB</button>
-                            <button>USD</button>
-                            <button>EUR</button>
-                            <button>GBP</button>
+                        <span class="box-title">l have</span>
+                        <div class="btn-values input-select">
+                            <button class="btn-value btn-first-col btn-active" value="RUB">RUB</button>
+                            <button class="btn-value btn-mid-col" value="USD">USD</button>
+                            <button class="btn-value btn-mid-col" value="EUR">EUR</button>
+                            <button class="btn-value btn-last-col" value="GBP">GBP</button>
                         </div>
+                        <div class="area input-area">
+                            <input class="amount" type="text" inputmode="decimal" value="1">
+                            <span class="currency-rate">1 RUB = 0.0135 USD</span>
+                        </div>
+                        <span class="errorText">Please enter a valid amount</span>
+                        <span class="errorNum">Please enter an amount greater than 0</span>
                     </div>
                     <div class="box output">
-                        <span class="output-title"></span>
-                        <div class="output-select">
-                            <button>RUB</button>
-                            <button>USD</button>
-                            <button>EUR</button>
-                            <button>GBP</button>
+                        <span class="box-title">l want to get</span>
+                        <div class="btn-values output-select">
+                            <button class="btn-value btn-first-col" value="RUB">RUB</button>
+                            <button class="btn-value btn-mid-col btn-active" value="USD">USD</button>
+                            <button class="btn-value btn-mid-col" value="EUR">EUR</button>
+                            <button class="btn-value btn-last-col" value="GBP">GBP</button>
                         </div>
+                        <div class="area output-area">
+                            <input class="amount" type="text" inputmode="decimal">
+
+                            <span class="currency-rate">1 USD = 73.8896 RUB</span>
+                        </div>
+                        <span class="errorText">Please enter a valid amount</span>
+                        <span class="errorNum">Please enter an amount greater than 0</span>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+    <script src="/script.js"></script>
 </body>
 
 </html>
