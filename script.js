@@ -12,8 +12,9 @@ const errorTextIn = document.querySelector('.input .errorText');
 const errorNumIn = document.querySelector('.input .errorNum');
 const errorTextOut = document.querySelector('.output .errorText');
 const errorNumOut = document.querySelector('.output .errorNum');
-
-let curApiRateIn, curApiRateOut, inVal = 1, outVal = 1;
+const menuBtn = document.querySelector('.hamburger');
+const menu = document.querySelector('.nav-content ul')
+let curApiRateIn, curApiRateOut;
 
 activeBtn.forEach((item, index) => {
     if (index == 0)
@@ -21,8 +22,6 @@ activeBtn.forEach((item, index) => {
     if (index == 1)
         outCur = item.value;
 });
-
-
 
 const callApi = async (e) => {
     window.addEventListener('offline', () => {
@@ -48,58 +47,62 @@ function appendRate(e) {
     curRateOut.textContent = `1 ${outCur} = ${curApiRateOut} ${inCur}`;
     if (e == 'output-select') {
         if (inputOut.value != '') {
-            inputIn.value = +(inputOut.value * curApiRateOut).toFixed(6);
+            inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6).substring(0, 12);
         } else {
-            inputOut.value = ''
+            inputOut.value = '';
         }
     }
     if (e == 'input-select') {
         if (inputIn.value != '') {
-            inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6);
+            inputIn.value = +(inputOut.value * curApiRateOut).toFixed(6).substring(0, 12);
         } else {
-            inputIn.value = ''
+            inputIn.value = '';
         }
     }
 
     inputIn.addEventListener('keyup', (e) => {
-        inVal = e.target.value;
-        if (e.target.value == '') {
-            errorTextIn.style.display = 'none';
-            errorNumIn.style.display = 'none';
-            inputOut.value = '';
-        } else if (e.target.value.includes(',')) {
-            e.target.value = e.target.value.replace(',', '.');
-        } else if (isNaN(e.target.value)) {
-            inputOut.value = '';
-            errorTextIn.style.display = 'block';
-            errorNumIn.style.display = 'none';
-        } else if (e.target.value.includes('-')) {
-            inputOut.value = '';
-            errorNumIn.style.display = 'block';
-            errorTextIn.style.display = 'none';
-        } else {
-            inputOut.value = +(e.target.value * curApiRateIn).toFixed(6);
-            errorTextIn.style.display = 'none';
-            errorNumIn.style.display = 'none';
+        if (e.target.value.length < 13) {
+            if (e.target.value == '') {
+                errorTextIn.style.display = 'none';
+                errorNumIn.style.display = 'none';
+                inputOut.value = '';
+            } else if (e.target.value.includes(',')) {
+                e.target.value = e.target.value.replace(',', '.');
+            } else if (isNaN(e.target.value)) {
+                inputOut.value = '';
+                errorTextIn.style.display = 'block';
+                errorNumIn.style.display = 'none';
+            } else if (e.target.value.includes('-')) {
+                inputOut.value = '';
+                errorNumIn.style.display = 'block';
+                errorTextIn.style.display = 'none';
+            } else {
+                inputOut.value = +(e.target.value * curApiRateIn).toFixed(6).substring(0, 12);
+                errorTextIn.style.display = 'none';
+                errorNumIn.style.display = 'none';
+            }
         }
     });
 
     inputOut.addEventListener('keyup', (e) => {
-        outVal = e.target.value;
-        if (e.target.value == '') {
-            errorTextOut.style.display = 'none';
-            errorNumOut.style.display = 'none';
-            inputIn.value = '';
-        } else if (isNaN(e.target.value)) {
-            errorTextOut.style.display = 'block';
-            inputIn.value = '';
-        } else if (e.target.value.includes('-')) {
-            errorNumOut.style.display = 'block';
-            inputIn.value = '';
-        } else {
-            inputIn.value = +(e.target.value * curApiRateOut).toFixed(6);
-            errorTextOut.style.display = 'none';
-            errorNumOut.style.display = 'none';
+        if (e.target.value.length < 13) {
+            if (e.target.value == '') {
+                errorTextOut.style.display = 'none';
+                errorNumOut.style.display = 'none';
+                inputIn.value = '';
+            } else if (isNaN(e.target.value)) {
+                errorTextOut.style.display = 'block';
+                errorNumOut.style.display = 'none';
+                inputIn.value = '';
+            } else if (e.target.value.includes('-')) {
+                errorNumOut.style.display = 'block';
+                errorTextOut.style.display = 'none';
+                inputIn.value = '';
+            } else {
+                inputIn.value = +(e.target.value * curApiRateOut).toFixed(6).substring(0, 12);
+                errorTextOut.style.display = 'none';
+                errorNumOut.style.display = 'none';
+            }
         }
     });
 }
@@ -109,6 +112,7 @@ eventListener();
 function eventListener() {
     btnIn.forEach(item => item.addEventListener('click', changeCurIn));
     btnOut.forEach(item => item.addEventListener('click', changeCurOut));
+    menuBtn.addEventListener('click', openMenu)
 }
 
 function changeCurIn(e) {
@@ -116,7 +120,6 @@ function changeCurIn(e) {
     activeBtnIn.forEach(item => item.classList.remove('btn-active'));
     e.target.classList.add('btn-active');
     inCur = e.target.value;
-    inputIn.value = outVal;
     errorTextIn.style.display = 'none';
     errorNumIn.style.display = 'none';
     callApi(e.target.parentElement.classList[1]);
@@ -127,8 +130,12 @@ function changeCurOut(e) {
     activeBtnOut.forEach(item => item.classList.remove('btn-active'))
     e.target.classList.add('btn-active');
     outCur = e.target.value;
-    inputIn.value = inVal;
     errorTextOut.style.display = 'none';
     errorNumOut.style.display = 'none';
     callApi(e.target.parentElement.classList[1]);
+}
+
+function openMenu(e) {
+    e.target.classList.toggle('is-active');
+    menu.classList.toggle('is-active');
 }

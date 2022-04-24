@@ -18,7 +18,11 @@
                         <img class="logo" src="/images/bank-logo.svg" alt="" srcset="">
                     </a>
                 </div>
+
                 <div class="nav-content">
+                    <button class="hamburger">
+                        <div class="bar"></div>
+                    </button>
                     <ul>
                         <li><a class="in-page" href="#">BANK</a></li>
                         <li><a href="#">BUSINESS</a></li>
@@ -27,6 +31,7 @@
                         <li><a href="#">MOBILE</a></li>
                         <li><a href="#">TRIPS</a></li>
                         <li><a href="#">ENTERTAINMENT</a></li>
+                        <li class="sign-in"><a href="#">Sign In</a></li>
                     </ul>
                 </div>
                 <div class="nav-right">
@@ -34,6 +39,7 @@
                 </div>
             </div>
         </div>
+
         <div class="main">
             <div class="main-header">
                 <h1 class="title">Currency converter</h1>
@@ -49,7 +55,8 @@
                             <button class="btn-value btn-last-col" value="GBP">GBP</button>
                         </div>
                         <div class="area input-area">
-                            <input class="amount" type="text" inputmode="decimal" value="1" placeholder="Type value...">
+                            <input class="amount" type="text" inputmode="decimal" value="1" maxlength="12"
+                                placeholder="Type value...">
                             <span class="currency-rate"></span>
                         </div>
                         <span class="errorText">Please enter a valid amount</span>
@@ -64,7 +71,8 @@
                             <button class="btn-value btn-last-col" value="GBP">GBP</button>
                         </div>
                         <div class="area output-area">
-                            <input class="amount" type="text" inputmode="decimal" value="0.012498" placeholder="Type value...">
+                            <input class="amount" type="text" inputmode="decimal" value="0.012498" maxlength="12"
+                                placeholder="Type value...">
                             <span class="currency-rate"></span>
                         </div>
                         <span class="errorText">Please enter a valid amount</span>
