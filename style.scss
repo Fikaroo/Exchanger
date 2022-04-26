@@ -196,7 +196,7 @@
         list-style-type: none;
         text-decoration: none;
         font-family: 'Roboto', sans-serif;
-        font-size: 2vw;
+        font-size: 2.4vw;
     }
 
     .header {
@@ -262,12 +262,12 @@
                     width: 100vw;
                     min-height: 100vh;
                     transition: 0.4s;
-                    z-index: 98;
+                    z-index: 988;
                     background-color: #F5F5F6;
 
                     a {
                         font-weight: 500;
-                        font-size: 5vw;
+                        font-size: 4vw;
                         color: #959BA4;
                     }
 
@@ -323,7 +323,7 @@
         margin-left: 22vw;
 
         .main-header {
-            margin-top: 2vw;
+            margin-top: 10vw;
             display: flex;
 
             .title {
@@ -395,6 +395,7 @@
                         margin-top: 3vw;
                         border: 1px solid #E5E5E5;
                         border-radius: 3px;
+                        
 
                         .amount {
                             font-weight: 700;

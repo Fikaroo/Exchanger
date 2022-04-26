@@ -179,7 +179,7 @@
     list-style-type: none;
     text-decoration: none;
     font-family: 'Roboto', sans-serif;
-    font-size: 2vw;
+    font-size: 2.4vw;
   }
   .header {
     padding: 2vw 14vw;
@@ -252,12 +252,12 @@
     min-height: 100vh;
     -webkit-transition: 0.4s;
     transition: 0.4s;
-    z-index: 98;
+    z-index: 988;
     background-color: #F5F5F6;
   }
   .header .nav .nav-content ul a {
     font-weight: 500;
-    font-size: 5vw;
+    font-size: 4vw;
     color: #959BA4;
   }
   .header .nav .nav-content ul li {
@@ -300,7 +300,7 @@
     margin-left: 22vw;
   }
   .main .main-header {
-    margin-top: 2vw;
+    margin-top: 10vw;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

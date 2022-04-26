@@ -1,6 +1,5 @@
 let inCur, outCur;
 const url = 'https://api.exchangerate.host/latest';
-const myApi = fetch(`${url}?base=${inCur}&symbols=${outCur}`);
 const activeBtn = document.querySelectorAll('.btn-active');
 const btnIn = document.querySelectorAll('.input-select .btn-value');
 const btnOut = document.querySelectorAll('.output-select .btn-value');
@@ -13,8 +12,9 @@ const errorNumIn = document.querySelector('.input .errorNum');
 const errorTextOut = document.querySelector('.output .errorText');
 const errorNumOut = document.querySelector('.output .errorNum');
 const menuBtn = document.querySelector('.hamburger');
-const menu = document.querySelector('.nav-content ul')
-let curApiRateIn, curApiRateOut;
+const menu = document.querySelector('.nav-content ul');
+const container = document.querySelector('.container');
+let curApiRateIn, curApiRateOut,space = 0;
 
 activeBtn.forEach((item, index) => {
     if (index == 0)
@@ -22,6 +22,7 @@ activeBtn.forEach((item, index) => {
     if (index == 1)
         outCur = item.value;
 });
+
 
 const callApi = async (e) => {
     window.addEventListener('offline', () => {
@@ -47,26 +48,29 @@ function appendRate(e) {
     curRateOut.textContent = `1 ${outCur} = ${curApiRateOut} ${inCur}`;
     if (e == 'output-select') {
         if (inputOut.value != '') {
-            inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6).substring(0, 12);
+            inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6).substring(0, 13);
         } else {
             inputOut.value = '';
         }
     }
     if (e == 'input-select') {
         if (inputIn.value != '') {
-            inputIn.value = +(inputOut.value * curApiRateOut).toFixed(6).substring(0, 12);
+            inputIn.value = +(inputOut.value * curApiRateOut).toFixed(6).substring(0, 13);
         } else {
             inputIn.value = '';
         }
     }
 
     inputIn.addEventListener('keyup', (e) => {
-        if (e.target.value.length < 13) {
+        console.log(inputIn.value)
+        
+        if (e.target.value.length < 14) {inputIn.value = numberWithSpaces(e.target.value);
             if (e.target.value == '') {
                 errorTextIn.style.display = 'none';
                 errorNumIn.style.display = 'none';
                 inputOut.value = '';
-            } else if (e.target.value.includes(',')) {
+            } 
+            else if (e.target.value.includes(',')) {
                 e.target.value = e.target.value.replace(',', '.');
             } else if (isNaN(e.target.value)) {
                 inputOut.value = '';
@@ -77,15 +81,25 @@ function appendRate(e) {
                 errorNumIn.style.display = 'block';
                 errorTextIn.style.display = 'none';
             } else {
-                inputOut.value = +(e.target.value * curApiRateIn).toFixed(6).substring(0, 12);
+                inputOut.value = +(e.target.value * curApiRateIn).toFixed(6).substring(0, 13);
                 errorTextIn.style.display = 'none';
                 errorNumIn.style.display = 'none';
             }
         }
     });
 
+    
+    function numberWithSpaces(num) {
+        num = num.replace(' ','');
+        if(num.length > 5) {
+            return num;
+        } else{
+        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
+    }
+    }
+
     inputOut.addEventListener('keyup', (e) => {
-        if (e.target.value.length < 13) {
+        if (e.target.value.length < 14) {
             if (e.target.value == '') {
                 errorTextOut.style.display = 'none';
                 errorNumOut.style.display = 'none';
@@ -99,7 +113,7 @@ function appendRate(e) {
                 errorTextOut.style.display = 'none';
                 inputIn.value = '';
             } else {
-                inputIn.value = +(e.target.value * curApiRateOut).toFixed(6).substring(0, 12);
+                inputIn.value = +(e.target.value * curApiRateOut).toFixed(6).substring(0, 13);
                 errorTextOut.style.display = 'none';
                 errorNumOut.style.display = 'none';
             }
@@ -112,7 +126,7 @@ eventListener();
 function eventListener() {
     btnIn.forEach(item => item.addEventListener('click', changeCurIn));
     btnOut.forEach(item => item.addEventListener('click', changeCurOut));
-    menuBtn.addEventListener('click', openMenu)
+    menuBtn.addEventListener('click', openMenu);
 }
 
 function changeCurIn(e) {
