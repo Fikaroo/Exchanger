@@ -62,9 +62,28 @@ function appendRate(e) {
     }
 
     inputIn.addEventListener('keyup', (e) => {
-        console.log(inputIn.value)
-        
-        if (e.target.value.length < 14) {inputIn.value = numberWithSpaces(e.target.value);
+        if (e.target.value.length < 14) {
+            if(e.target.value.length == 4){
+            e.target.value = e.target.value.replace(/([0-9])([0-9][0-9][0-9])/g, '$1 $2')
+            console.log(e.target.value.length)
+        } 
+        if (e.target.value.length == 8){
+            e.target.value = e.target.value.replace(" ","")
+            e.target.value = e.target.value.replace(/([0-9])([0-9][0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2 $3')
+        }
+        // if (e.target.value.length == 8){
+        //     e.target.value = e.target.value.replace(" ","")
+        //     e.target.value = e.target.value.replace(/([0-9][0-9])([0-9][0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2 $3')
+        // }
+        if (e.target.value.length == 7){
+            e.target.value = e.target.value.replace(" ","")
+            e.target.value = e.target.value.replace(/([0-9][0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2')
+        }
+            if (e.target.value.length == 6){
+                e.target.value = e.target.value.replace(" ","")
+                e.target.value = e.target.value.replace(/([0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2')
+
+            }
             if (e.target.value == '') {
                 errorTextIn.style.display = 'none';
                 errorNumIn.style.display = 'none';
@@ -72,7 +91,7 @@ function appendRate(e) {
             } 
             else if (e.target.value.includes(',')) {
                 e.target.value = e.target.value.replace(',', '.');
-            } else if (isNaN(e.target.value)) {
+            } else if (isNaN(e.target.value.replace(' ',''))) {
                 inputOut.value = '';
                 errorTextIn.style.display = 'block';
                 errorNumIn.style.display = 'none';
@@ -88,23 +107,13 @@ function appendRate(e) {
         }
     });
 
-    
-    function numberWithSpaces(num) {
-        num = num.replace(' ','');
-        if(num.length > 5) {
-            return num;
-        } else{
-        return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, " ");
-    }
-    }
-
     inputOut.addEventListener('keyup', (e) => {
         if (e.target.value.length < 14) {
             if (e.target.value == '') {
                 errorTextOut.style.display = 'none';
                 errorNumOut.style.display = 'none';
                 inputIn.value = '';
-            } else if (isNaN(e.target.value)) {
+            } else if (isNaN(e.target.value.replace(' ',''))) {
                 errorTextOut.style.display = 'block';
                 errorNumOut.style.display = 'none';
                 inputIn.value = '';
@@ -113,7 +122,7 @@ function appendRate(e) {
                 errorTextOut.style.display = 'none';
                 inputIn.value = '';
             } else {
-                inputIn.value = +(e.target.value * curApiRateOut).toFixed(6).substring(0, 13);
+                inputIn.value = +(e.target.value.replace(' ','') * curApiRateOut).toFixed(6).substring(0, 13);
                 errorTextOut.style.display = 'none';
                 errorNumOut.style.display = 'none';
             }

@@ -181,21 +181,22 @@
     font-family: 'Roboto', sans-serif;
     font-size: 2.4vw;
   }
-  .header {
-    padding: 2vw 14vw;
-    background: #F5F5F6;
-  }
   .header .nav {
+    top: 0;
+    padding: 1vw 20vw;
+    width: 100vw;
     font-weight: 500;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;
+    position: fixed;
     -webkit-box-pack: justify;
         -ms-flex-pack: justify;
             justify-content: space-between;
     -webkit-box-align: center;
         -ms-flex-align: center;
             align-items: center;
+    background: #F5F5F6;
   }
   .header .nav .nav-left {
     margin-right: 40vw;
@@ -247,12 +248,10 @@
     position: fixed;
     left: 100%;
     padding-left: 8vw;
-    padding-top: 8vw;
+    padding-top: 4vw;
     width: 100vw;
-    min-height: 100vh;
     -webkit-transition: 0.4s;
     transition: 0.4s;
-    z-index: 988;
     background-color: #F5F5F6;
   }
   .header .nav .nav-content ul a {
@@ -262,10 +261,11 @@
   }
   .header .nav .nav-content ul li {
     margin-right: 3vw;
-    margin-bottom: 2vw;
+    margin-bottom: 1.4vw;
   }
   .header .nav .nav-content ul .sign-in {
     margin-top: 4vw;
+    margin-bottom: 4vw;
   }
   .header .nav .nav-content ul .sign-in a {
     padding: 1.8vw 3.4vw;
@@ -281,6 +281,8 @@
     cursor: pointer;
   }
   .header .nav .nav-content ul.is-active {
+    height: 85vh;
+    overflow-y: auto;
     left: 0;
   }
   .header .nav .btn-login {
@@ -300,7 +302,7 @@
     margin-left: 22vw;
   }
   .main .main-header {
-    margin-top: 10vw;
+    margin-top: 60px;
     display: -webkit-box;
     display: -ms-flexbox;
     display: flex;

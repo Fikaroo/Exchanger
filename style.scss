@@ -200,15 +200,17 @@
     }
 
     .header {
-        padding: 2vw 14vw;
-        background: #F5F5F6;
-
+        
         .nav {
+            top: 0;
+            padding: 1vw 20vw;
+            width: 100vw;
             font-weight: 500;
             display: flex;
+            position: fixed;
             justify-content: space-between;
             align-items: center;
-
+            background: #F5F5F6;
             .nav-left {
                 margin-right: 40vw;
 
@@ -258,11 +260,9 @@
                     position: fixed;
                     left: 100%;
                     padding-left: 8vw;
-                    padding-top: 8vw;
+                    padding-top: 4vw;
                     width: 100vw;
-                    min-height: 100vh;
                     transition: 0.4s;
-                    z-index: 988;
                     background-color: #F5F5F6;
 
                     a {
@@ -273,11 +273,12 @@
 
                     li {
                         margin-right: 3vw;
-                        margin-bottom: 2vw;
+                        margin-bottom: 1.4vw;
                     }
 
                     .sign-in {
                         margin-top: 4vw;
+                        margin-bottom: 4vw;
                     }
 
                     .sign-in a {
@@ -298,7 +299,9 @@
                 }
 
                 ul.is-active {
-                    left: 0;
+                    height: 85vh;
+                    overflow-y: auto;
+                    left:0;
                 }
             }
 
@@ -323,7 +326,7 @@
         margin-left: 22vw;
 
         .main-header {
-            margin-top: 10vw;
+            margin-top: 60px;
             display: flex;
 
             .title {
@@ -395,7 +398,7 @@
                         margin-top: 3vw;
                         border: 1px solid #E5E5E5;
                         border-radius: 3px;
-                        
+
 
                         .amount {
                             font-weight: 700;
