@@ -7,14 +7,10 @@ const curRateIn = document.querySelector('.input-area .currency-rate');
 const curRateOut = document.querySelector('.output-area .currency-rate');
 const inputIn = document.querySelector('.input-area .amount');
 const inputOut = document.querySelector('.output-area .amount');
-const errorTextIn = document.querySelector('.input .errorText');
-const errorNumIn = document.querySelector('.input .errorNum');
-const errorTextOut = document.querySelector('.output .errorText');
-const errorNumOut = document.querySelector('.output .errorNum');
 const menuBtn = document.querySelector('.hamburger');
 const menu = document.querySelector('.nav-content ul');
 const container = document.querySelector('.container');
-let curApiRateIn, curApiRateOut,space = 0;
+let curApiRateIn, curApiRateOut, space = 0;
 
 activeBtn.forEach((item, index) => {
     if (index == 0)
@@ -48,87 +44,39 @@ function appendRate(e) {
     curRateOut.textContent = `1 ${outCur} = ${curApiRateOut} ${inCur}`;
     if (e == 'output-select') {
         if (inputOut.value != '') {
-            inputOut.value = +(inputIn.value * curApiRateIn).toFixed(6).substring(0, 13);
+            inputOut.value = +(inputIn.value.replaceAll(" ", "") * curApiRateIn).toFixed(6).substring(0, 13);
         } else {
             inputOut.value = '';
         }
     }
     if (e == 'input-select') {
         if (inputIn.value != '') {
-            inputIn.value = +(inputOut.value * curApiRateOut).toFixed(6).substring(0, 13);
+            inputIn.value = +(inputOut.value.replaceAll(" ", "") * curApiRateOut).toFixed(6).substring(0, 13);
         } else {
             inputIn.value = '';
         }
     }
-
-    inputIn.addEventListener('keyup', (e) => {
-        if (e.target.value.length < 14) {
-            if(e.target.value.length == 4){
-            e.target.value = e.target.value.replace(/([0-9])([0-9][0-9][0-9])/g, '$1 $2')
-            console.log(e.target.value.length)
-        } 
-        if (e.target.value.length == 8){
-            e.target.value = e.target.value.replace(" ","")
-            e.target.value = e.target.value.replace(/([0-9])([0-9][0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2 $3')
-        }
-        // if (e.target.value.length == 8){
-        //     e.target.value = e.target.value.replace(" ","")
-        //     e.target.value = e.target.value.replace(/([0-9][0-9])([0-9][0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2 $3')
-        // }
-        if (e.target.value.length == 7){
-            e.target.value = e.target.value.replace(" ","")
-            e.target.value = e.target.value.replace(/([0-9][0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2')
-        }
-            if (e.target.value.length == 6){
-                e.target.value = e.target.value.replace(" ","")
-                e.target.value = e.target.value.replace(/([0-9][0-9])([0-9][0-9][0-9])/g, '$1 $2')
-
-            }
-            if (e.target.value == '') {
-                errorTextIn.style.display = 'none';
-                errorNumIn.style.display = 'none';
-                inputOut.value = '';
-            } 
-            else if (e.target.value.includes(',')) {
-                e.target.value = e.target.value.replace(',', '.');
-            } else if (isNaN(e.target.value.replace(' ',''))) {
-                inputOut.value = '';
-                errorTextIn.style.display = 'block';
-                errorNumIn.style.display = 'none';
-            } else if (e.target.value.includes('-')) {
-                inputOut.value = '';
-                errorNumIn.style.display = 'block';
-                errorTextIn.style.display = 'none';
-            } else {
-                inputOut.value = +(e.target.value * curApiRateIn).toFixed(6).substring(0, 13);
-                errorTextIn.style.display = 'none';
-                errorNumIn.style.display = 'none';
-            }
-        }
-    });
-
-    inputOut.addEventListener('keyup', (e) => {
-        if (e.target.value.length < 14) {
-            if (e.target.value == '') {
-                errorTextOut.style.display = 'none';
-                errorNumOut.style.display = 'none';
-                inputIn.value = '';
-            } else if (isNaN(e.target.value.replace(' ',''))) {
-                errorTextOut.style.display = 'block';
-                errorNumOut.style.display = 'none';
-                inputIn.value = '';
-            } else if (e.target.value.includes('-')) {
-                errorNumOut.style.display = 'block';
-                errorTextOut.style.display = 'none';
-                inputIn.value = '';
-            } else {
-                inputIn.value = +(e.target.value.replace(' ','') * curApiRateOut).toFixed(6).substring(0, 13);
-                errorTextOut.style.display = 'none';
-                errorNumOut.style.display = 'none';
-            }
-        }
-    });
 }
+inputIn.addEventListener('keyup', (e) => {
+    if (e.target.value.length < 14) {
+        if (e.target.value == '') {
+            inputOut.value = '';
+        }
+        inputOut.value = +(e.target.value.replaceAll(" ", "") * curApiRateIn).toFixed(6).substring(0, 13);
+        inputOut.value = commify(inputOut.value);
+    }
+});
+
+inputOut.addEventListener('keyup', (e) => {
+    if (e.target.value.length < 14) {
+        if (e.target.value == '') {
+            inputIn.value = '';
+        }
+        inputIn.value = +(e.target.value.replaceAll(" ", "") * curApiRateOut).toFixed(6).substring(0, 13);
+        inputIn.value = commify(inputIn.value);
+    }
+});
+
 
 eventListener();
 
@@ -143,8 +91,6 @@ function changeCurIn(e) {
     activeBtnIn.forEach(item => item.classList.remove('btn-active'));
     e.target.classList.add('btn-active');
     inCur = e.target.value;
-    errorTextIn.style.display = 'none';
-    errorNumIn.style.display = 'none';
     callApi(e.target.parentElement.classList[1]);
 }
 
@@ -153,12 +99,44 @@ function changeCurOut(e) {
     activeBtnOut.forEach(item => item.classList.remove('btn-active'))
     e.target.classList.add('btn-active');
     outCur = e.target.value;
-    errorTextOut.style.display = 'none';
-    errorNumOut.style.display = 'none';
     callApi(e.target.parentElement.classList[1]);
 }
 
 function openMenu(e) {
     e.target.classList.toggle('is-active');
     menu.classList.toggle('is-active');
+}
+
+var numberMask = IMask(inputIn, {
+    mask: Number, // enable number mask
+    // other options are optional with defaults below
+    scale: 6, // digits after point, 0 for integers
+    signed: false, // disallow negative
+    thousandsSeparator: ' ', // any single char
+    padFractionalZeros: false, // if true, then pads zeros at end to the length of scale
+    normalizeZeros: true, // appends or removes zeros at ends
+    radix: '.', // fractional delimiter
+    mapToRadix: [','], // symbols to process as radix
+});
+
+var numberMask = IMask(inputOut, {
+    mask: Number, // enable number mask
+    // other options are optional with defaults below
+    scale: 6, // digits after point, 0 for integers
+    signed: false, // disallow negative
+    thousandsSeparator: ' ', // any single char
+    padFractionalZeros: false, // if true, then pads zeros at end to the length of scale
+    normalizeZeros: true, // appends or removes zeros at ends
+    radix: '.', // fractional delimiter
+    mapToRadix: [','], // symbols to process as radix
+});
+
+function commify(n) {
+    var parts = n.toString().split(".");
+    const numberPart = parts[0];
+    const decimalPart = parts[1];
+    const thousands = /\B(?=(\d{3})+(?!\d))/g;
+    return (
+        numberPart.replace(thousands, " ") + (decimalPart ? "." + decimalPart : "")
+    );
 }
