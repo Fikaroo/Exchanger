@@ -60,7 +60,7 @@ function appendRate(e) {
 inputIn.addEventListener('keyup', (e) => {
     if (e.target.value.length < 14) {
         if (e.target.value == '') {
-            inputOut.value = '';
+            inputOut.value = "";
         }
         inputOut.value = +(e.target.value.replaceAll(" ", "") * curApiRateIn).toFixed(6).substring(0, 13);
         inputOut.value = commify(inputOut.value);
